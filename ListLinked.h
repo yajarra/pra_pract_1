@@ -16,7 +16,7 @@ class ListLinked : public List<T> {
     public:
 		T data;
 		Node <T>* next;
-        ListLinked();
+        ListLinked() : first(nullptr), n(0) {}
 		~ListLinked(){
 			for (int i=0;i<n;i++){
 				Node<T>* aux=first->next;
@@ -121,15 +121,17 @@ void insert(int pos, T e) {
     n++;
 }
 
-void remove(int pos) {
+T remove(int pos) {
     if (pos < 0 || pos >= n) {
         throw std::out_of_range("fuera del rango");
     }
 
     Node<T>* borrar;
+    T elemento;
 
     if (pos == 0) {
         borrar = first;
+        elemento = borrar->data;
         first = first->next;
     } else {
         Node<T>* tmp = first;
@@ -139,11 +141,14 @@ void remove(int pos) {
         }
 
         borrar = tmp->next;
+        elemento = borrar->data;
         tmp->next = borrar->next;
     }
 
     delete borrar;
     n--;
+
+    return elemento;
 }
 
 int search(T e) {
